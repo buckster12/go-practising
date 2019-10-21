@@ -5,7 +5,7 @@ import (
 	"os"
 )
 
-func main() {
+func main2() {
 	// s, sep := "", ""
 	// for _, arg := range os.Args[1:] {
 	// s += sep + arg
