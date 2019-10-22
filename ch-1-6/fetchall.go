@@ -35,6 +35,12 @@ func main() {
 	fmt.Fprintf(os.Stdout, "The biggest size of a page is on site: %s\n", maxSizeName)
 }
 
+func check(e error) {
+	if e != nil {
+		panic(e)
+	}
+}
+
 func fetch(url string, ch chan<- string) {
 	start := time.Now()
 	resp, err := http.Get(url)
@@ -42,6 +48,15 @@ func fetch(url string, ch chan<- string) {
 		ch <- fmt.Sprint(err) // send to channel
 		return
 	}
+
+	bodyContent, err := ioutil.ReadAll(resp.Body)
+	check(err)
+
+	siteParts := strings.Split(url, "/")
+	fileName := string(siteParts[2])
+	err = ioutil.WriteFile(fileName+".html", bodyContent, 0644)
+	check(err)
+
 	nbytes, err := io.Copy(ioutil.Discard, resp.Body)
 	resp.Body.Close()
 	if err != nil {
