@@ -11,7 +11,10 @@ import (
 	"time"
 )
 
-var palette = []color.Color{color.White, color.Black}
+var palette = []color.Color{
+	color.RGBA{0x00, 0x00, 0x00, 0xFF},
+	color.RGBA{0x9f, 0xff, 0x33, 0xFF},
+}
 
 const (
 	whiteIndex = 0
