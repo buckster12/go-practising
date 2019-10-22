@@ -21,7 +21,10 @@ func main() {
 		}
 		// b, err := ioutil.ReadAll(resp.Body)
 
-		fmt.Println(resp.StatusCode)
+		// statusCode := resp.StatusCode(resp.StatusCode)
+		if resp.StatusCode != 200 {
+			fmt.Println("Page cannot be loaded")
+		}
 
 		_, err = io.Copy(os.Stdout, resp.Body)
 		resp.Body.Close()
