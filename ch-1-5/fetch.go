@@ -21,6 +21,8 @@ func main() {
 		}
 		// b, err := ioutil.ReadAll(resp.Body)
 
+		fmt.Println(resp.StatusCode)
+
 		_, err = io.Copy(os.Stdout, resp.Body)
 		resp.Body.Close()
 
