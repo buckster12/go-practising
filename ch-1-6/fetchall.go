@@ -6,6 +6,8 @@ import (
 	"io/ioutil"
 	"net/http"
 	"os"
+	"strconv"
+	"strings"
 	"time"
 )
 
@@ -15,10 +17,22 @@ func main() {
 	for _, url := range os.Args[1:] {
 		go fetch(url, ch)
 	}
+	var maxsize int
+	var maxSizeName string
+
 	for range os.Args[1:] {
-		fmt.Println(<-ch)
+		datafromchannel := <-ch
+		parts := strings.Fields(datafromchannel)
+		// fmt.Println(parts[1])
+		size, err := strconv.Atoi(parts[1])
+		if err == nil && size > maxsize {
+			maxSizeName = parts[2]
+		}
+		// fmt.Println(parts[2])
+		fmt.Println(datafromchannel)
 	}
-	fmt.Printf("%.2fs elapsed \n", time.Since(start).Seconds())
+	fmt.Printf("%.2fs elapsed\n", time.Since(start).Seconds())
+	fmt.Fprintf(os.Stdout, "The biggest size of a page is on site: %s\n", maxSizeName)
 }
 
 func fetch(url string, ch chan<- string) {
